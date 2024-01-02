@@ -1,0 +1,26 @@
+﻿@page
+@using System.Data.SqlClient;
+
+@{
+    try{
+        string ID = Request.Query["ID"];
+
+        String connectionString = "Data Source=SALMAN\\SQLEXPRESS;Initial Catalog=mystore;Integrated Security=True";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            string sql = "DELETE FROM Clients WHERE ID = @ID";
+
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@ID", ID);
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+    catch(Exception ex)
+    {
+        
+    }
+    Response.Redirect("/Clients/Index");
+}
